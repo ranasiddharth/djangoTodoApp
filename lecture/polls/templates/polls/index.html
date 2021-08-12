@@ -1,0 +1,9 @@
+{% if todolists %}
+
+    <ul>
+        {% for todolist in todolists %}
+        <li><a href="/polls/{{todolist.id}}">{{todolist.list_name}}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endif %}
