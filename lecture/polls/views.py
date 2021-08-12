@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from .models import TodoList, TodoItem
 from django.template import loader
+from django.shortcuts import redirect
 # Create your views here.
 
 def index(request):
@@ -37,3 +38,24 @@ def create(request):
         'todolists': lists
     }
     return render(request, 'polls/index.html', context)
+
+def delete_task(request, pk):
+    try:
+        task = TodoList.objects.get(id=pk)
+        task.delete()
+    except TodoList.DoesNotExist:
+        raise Http404("This list does not exist")
+    lists = TodoList.objects.all()
+    context = {
+        'todolists': lists
+    }
+    return render(request, 'polls/index.html', context)
+
+def delete_sub_task(request, pk):
+    try:
+        task = TodoItem.objects.get(title=pk)
+        t = task.todo_list.id
+        task.delete()
+    except TodoItem.DoesNotExist:
+        raise Http404("This list does not exist")
+    return redirect(f'http://127.0.0.1:8000/polls/{t}/')

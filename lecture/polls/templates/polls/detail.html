@@ -6,6 +6,7 @@
 
     <li>
         {{item.title}}:{{item.due_date}},{{item.checked}}
+        | <a href="{% url 'polls:delete_sub_task' item.title %}">Delete</a>
     </li>
 
     {% endfor %}
