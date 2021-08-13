@@ -54,7 +54,7 @@ def delete_task(request, pk):
 
 def delete_sub_task(request, pk):
     try:
-        task = TodoItem.objects.get(title=pk)
+        task = TodoItem.objects.get(id=pk)
         t = task.todo_list.id
         task.delete()
     except TodoItem.DoesNotExist:
@@ -85,7 +85,7 @@ def update_task(request, pk):
     return render(request, 'polls/index.html', context)
 
 def update_sub_task(request, pk):
-    task = TodoItem.objects.get(title=pk)
+    task = TodoItem.objects.get(id=pk)
     form = TaskForm(instance=task)
     t = task.todo_list.id
     if request.method == "POST":

@@ -9,8 +9,8 @@ urlpatterns = [
     path('<int:list_id>/', detail, name='list_details'),
     path('create/', create, name='list_create'),
     path("delete/<int:pk>/", delete_task, name="delete_task"),
-    path("deleteItem/<pk>/", delete_sub_task, name="delete_sub_task"),
+    path("deleteItem/<int:pk>/", delete_sub_task, name="delete_sub_task"),
     path("createItem/<int:pk>", createsub, name="createsub"),
     path("update/<int:pk>/", update_task, name="update_task"),
-    path("update_sub/<pk>/", update_sub_task, name="update_sub_task"),
+    path("update_sub/<int:pk>/", update_sub_task, name="update_sub_task"),
 ]
