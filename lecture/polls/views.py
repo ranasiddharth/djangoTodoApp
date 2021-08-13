@@ -83,3 +83,17 @@ def update_task(request, pk):
         'todolists': lists
     }
     return render(request, 'polls/index.html', context)
+
+def update_sub_task(request, pk):
+    task = TodoItem.objects.get(title=pk)
+    form = TaskForm(instance=task)
+    t = task.todo_list.id
+    if request.method == "POST":
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect(f"http://127.0.0.1:8000/polls/{t}/")
+    context = {
+        'task_edit_form': form
+    }
+    return render(request, "polls/update_sub_task.html", context)

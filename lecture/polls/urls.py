@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import index, detail, create, delete_task, delete_sub_task, createsub, update_task
+from .views import index, detail, create, delete_task, delete_sub_task, createsub, update_task, update_sub_task
 
 app_name = 'polls'
 
@@ -12,4 +12,5 @@ urlpatterns = [
     path("deleteItem/<pk>/", delete_sub_task, name="delete_sub_task"),
     path("createItem/<int:pk>", createsub, name="createsub"),
     path("update/<int:pk>/", update_task, name="update_task"),
+    path("update_sub/<pk>/", update_sub_task, name="update_sub_task"),
 ]
