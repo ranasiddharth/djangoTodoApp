@@ -1,12 +1,7 @@
-<form action="{% url 'polls:list_create' %}" method="POST">
+<form method="post">
     {% csrf_token %}
-    <fieldset>
 
-        <h2>Create New Item</h2>
-        <input type="text" name="name" id="name">
+        {{task_form}}
 
-        <input type="submit">
-    </fieldset>
-
-
+        <button type="submit">SUBMIT</button>
 </form>

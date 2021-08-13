@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404
 from .models import TodoList, TodoItem
 from django.template import loader
 from django.shortcuts import redirect
+from .forms import TaskForm
 # Create your views here.
 
 def index(request):
@@ -59,3 +60,13 @@ def delete_sub_task(request, pk):
     except TodoItem.DoesNotExist:
         raise Http404("This list does not exist")
     return redirect(f'http://127.0.0.1:8000/polls/{t}/')
+
+def createsub(request, pk):
+    form = TaskForm()
+
+    if request.method == "POST":
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(f"http://127.0.0.1:8000/polls/{pk}/")
+    return render(request, "polls/createsublist.html", {"task_form": form})
