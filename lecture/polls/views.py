@@ -70,3 +70,16 @@ def createsub(request, pk):
             form.save()
             return redirect(f"http://127.0.0.1:8000/polls/{pk}/")
     return render(request, "polls/createsublist.html", {"task_form": form})
+
+def update_task(request, pk):
+    if request.method =='GET':
+        return render(request, 'polls/update_task.html')
+    obj = TodoList.objects.get(id=pk)
+    name = request.POST['name']
+    obj.list_name = name
+    obj.save()
+    lists = TodoList.objects.all()
+    context = {
+        'todolists': lists
+    }
+    return render(request, 'polls/index.html', context)

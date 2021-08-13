@@ -4,6 +4,7 @@
     <ul>
         {% for todolist in todolists %}
         <li><a href="/polls/{{todolist.id}}">{{todolist.list_name}}</a>
+        | <a href="{% url 'polls:update_task' todolist.id %}">Update</a>
         | <a href="{% url 'polls:delete_task' todolist.id %}">Delete</a>
         </li>
         {% endfor %}
