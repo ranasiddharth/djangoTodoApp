@@ -1,7 +1,7 @@
 <form method="post">
     {% csrf_token %}
-
-        {{task_form}}
+        <h1>Create Task</h1>
+        {{task_form.as_p}}
 
         <button type="submit">SUBMIT</button>
 </form>

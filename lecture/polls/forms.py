@@ -6,4 +6,4 @@ from .models import TodoItem, TodoList
 class TaskForm(forms.ModelForm):
     class Meta:
         model = TodoItem
-        fields = '__all__'
+        exclude = ['todo_list']

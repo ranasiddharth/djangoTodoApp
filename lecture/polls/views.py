@@ -1,3 +1,6 @@
+"""
+This is views.py, containing all the functions.
+"""
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from .models import TodoList, TodoItem
@@ -6,7 +9,9 @@ from django.shortcuts import redirect
 from .forms import TaskForm
 # Create your views here.
 
+
 def index(request):
+    """A dummy docstring."""
     list_todo = TodoList.objects.all()
     items = TodoItem.objects.all()
     template = loader.get_template('polls/index.html')
@@ -17,6 +22,7 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 def detail(request, list_id):
+    """A dummy docstring."""
     try:
         todolist = TodoList.objects.get(id=list_id)
     except TodoList.DoesNotExist:
@@ -29,6 +35,7 @@ def detail(request, list_id):
     return render(request, 'polls/detail.html', context)
 
 def create(request):
+    """A dummy docstring."""
     if request.method =='GET':
         return render(request, 'polls/createlist.html')
 
@@ -41,6 +48,7 @@ def create(request):
     return render(request, 'polls/index.html', context)
 
 def delete_task(request, pk):
+    """A dummy docstring."""
     try:
         task = TodoList.objects.get(id=pk)
         task.delete()
@@ -53,6 +61,7 @@ def delete_task(request, pk):
     return render(request, 'polls/index.html', context)
 
 def delete_sub_task(request, pk):
+    """A dummy docstring."""
     try:
         task = TodoItem.objects.get(id=pk)
         t = task.todo_list.id
@@ -62,30 +71,37 @@ def delete_sub_task(request, pk):
     return redirect(f'http://127.0.0.1:8000/polls/{t}/')
 
 def createsub(request, pk):
+    """A dummy docstring."""
     form = TaskForm()
 
     if request.method == "POST":
         form = TaskForm(request.POST)
         if form.is_valid():
+            form = form.save(commit=False)
+            form.todo_list = TodoList.objects.get(id=pk)
             form.save()
             return redirect(f"http://127.0.0.1:8000/polls/{pk}/")
     return render(request, "polls/createsublist.html", {"task_form": form})
 
 def update_task(request, pk):
+    """A dummy docstring."""
+    try:
+        obj = TodoList.objects.get(id=pk)
+    except:
+        raise Http404('This id does not exist')
     if request.method =='GET':
         return render(request, 'polls/update_task.html')
-    obj = TodoList.objects.get(id=pk)
     name = request.POST['name']
     obj.list_name = name
     obj.save()
-    lists = TodoList.objects.all()
-    context = {
-        'todolists': lists
-    }
-    return render(request, 'polls/index.html', context)
+    return redirect('http://127.0.0.1:8000/polls/')
 
 def update_sub_task(request, pk):
-    task = TodoItem.objects.get(id=pk)
+    """A dummy docstring."""
+    try:
+        task = TodoItem.objects.get(id=pk)
+    except:
+        raise Http404("This sub task id doesn't exist")
     form = TaskForm(instance=task)
     t = task.todo_list.id
     if request.method == "POST":
