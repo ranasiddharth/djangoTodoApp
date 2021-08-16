@@ -104,9 +104,17 @@ def update_sub_task(request, pk):
         raise Http404("This sub task id doesn't exist")
     form = TaskForm(instance=task)
     t = task.todo_list.id
+    main_list = TodoList.objects.get(id=t)
+    sub_lists = TodoItem.objects.filter(todo_list=main_list)
+    naam = task.title
     if request.method == "POST":
         form = TaskForm(request.POST, instance=task)
         if form.is_valid():
+            form = form.save(commit=False)
+            for lists in sub_lists:
+                if lists.title != naam:
+                    if lists.title == form.title:
+                        raise Http404('Name cannot be updated, since it is already present')
             form.save()
             return redirect(f"http://127.0.0.1:8000/polls/{t}/")
     context = {
